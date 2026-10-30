@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#EEECE6">
+<meta name="robots" content="noindex,nofollow">
+<title>Maida | Afitsant paneli</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%23A98521'/%3E%3Ctext x='32' y='44' font-size='36' font-family='Georgia,serif' text-anchor='middle' fill='%23FFFDF8'%3EM%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Jost:wght@400;500;600&display=swap">
+<style>
+:root{--f-head:"Cormorant Garamond",Georgia,serif;--f-body:"Jost",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+ --bg:#EEECE6;--paper:#fff;--ink:#1A1A1A;--muted:#54544E;--gold:#A38630;--gold-deep:#86691F;--line:rgba(108,80,10,.35);--ok:#2F7A46;--warn:#B8741A;--bad:#C0503E}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--f-body);background:var(--bg);color:var(--ink);line-height:1.45;min-height:100vh;padding-bottom:calc(2rem + env(safe-area-inset-bottom,0px))}
+body.lock{overflow:hidden}
+body.inmenu{padding-bottom:calc(6.5rem + env(safe-area-inset-bottom,0px))}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+[hidden]{display:none!important}
+.bar{position:sticky;top:0;z-index:10;background:rgba(238,236,230,.95);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:calc(0.625rem + env(safe-area-inset-top,0px)) 0.5rem 0}
+.bar-in{max-width:44rem;margin:0 auto}
+.bar-top{display:flex;align-items:center;justify-content:space-between;gap:0.5rem;padding:0 0.5rem}
+.bar h1{font-family:var(--f-head);font-weight:700;font-size:1.625rem;line-height:1.1}
+.bar-act{display:flex;gap:0.375rem}
+.ib{min-width:2.75rem;height:2.75rem;padding:0 0.75rem;border-radius:6.1875rem;border:1px solid var(--line);background:var(--paper);font-size:0.875rem;font-weight:500}
+.ib[aria-pressed="false"]{opacity:.55}
+.tabs{display:flex;gap:0.125rem;margin-top:0.375rem}
+.tab{flex:1;min-width:0;padding:0.625rem 0.125rem 0.75rem;font-family:var(--f-head);font-weight:700;font-size:1.125rem;color:var(--muted);border-bottom:3px solid transparent;text-align:center;white-space:nowrap}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--gold)}
+.cnt{display:inline-grid;place-items:center;min-width:1.25rem;height:1.25rem;padding:0 0.3rem;margin-left:0.2rem;border-radius:6.1875rem;background:var(--ink);color:#fff;font:600 0.6875rem var(--f-body);vertical-align:middle}
+.tab.new .cnt{background:var(--bad)}
+main{max-width:44rem;margin:0 auto;padding:1rem}
+.demo{background:#FFF4D6;border:1px solid #E0C26A;border-radius:0.75rem;padding:0.625rem 0.875rem;font-size:0.875rem;margin-bottom:0.875rem}
+.list{display:flex;flex-direction:column;gap:0.875rem}
+.o{background:var(--paper);border:1.5px solid var(--line);border-radius:1.25rem;padding:1rem;box-shadow:0 0.5rem 1.25rem -0.75rem rgba(60,50,20,.5)}
+.o.new{border-color:var(--bad);box-shadow:0 0 0 3px rgba(192,80,62,.18)}
+.o-h{display:flex;justify-content:space-between;align-items:flex-start;gap:0.75rem}
+.o-t{font-family:var(--f-head);font-weight:700;font-size:2.25rem;line-height:1}
+.o-m{text-align:right;font-size:0.8125rem;color:var(--muted)}
+.o-m b{display:block;font-size:0.9375rem;color:var(--ink);font-weight:600}
+.badge{display:inline-block;margin-top:0.25rem;padding:0.125rem 0.625rem;border-radius:6.1875rem;font-size:0.75rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#fff;background:var(--muted)}
+.badge.new{background:var(--bad)}.badge.accepted{background:var(--warn)}.badge.served{background:var(--ok)}.badge.cancelled{background:var(--muted)}.badge.billed{background:var(--gold-deep)}
+.o-i{list-style:none;margin:0.75rem 0 0}
+.o-i li{display:flex;gap:0.625rem;padding:0.5rem 0;border-top:1px solid rgba(108,80,10,.2);font-size:1.0625rem}
+.o-i .q{flex:none;min-width:2.5rem;font-weight:600;color:var(--gold-deep)}
+.o-i .s{margin-left:auto;white-space:nowrap;color:var(--muted);font-variant-numeric:tabular-nums}
+.note{margin-top:0.625rem;padding:0.625rem 0.75rem;border-radius:0.75rem;background:#FFF4D6;border:1px solid #E0C26A;font-size:0.9375rem;overflow-wrap:anywhere}
+.o-s{display:flex;justify-content:space-between;margin-top:0.75rem;font-weight:600}
+.o-s span:last-child{color:var(--gold-deep)}
+.o-a{display:flex;gap:0.5rem;margin-top:0.875rem;flex-wrap:wrap}
+.b{flex:1;min-height:3.25rem;border-radius:6.1875rem;font-weight:600;font-size:1.0625rem;color:#fff;background:var(--gold-deep);padding:0 1rem}
+.b.ok{background:var(--ok)}
+.b.sm{flex:none;min-width:5.5rem;background:transparent;color:var(--ink);border:1px solid var(--line);font-size:0.9375rem}
+.b.bad{color:var(--bad);border-color:var(--bad)}
+.b.alt{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.b:disabled{opacity:.5}
+.empty{text-align:center;color:var(--muted);padding:3rem 0}
+.login{max-width:24rem;margin:12vh auto 0;padding:1.5rem 1.25rem;background:var(--paper);border:1.5px solid var(--line);border-radius:1.5rem}
+.login h2{font-family:var(--f-head);font-size:2rem;line-height:1.1;margin-bottom:0.25rem}
+.login p{color:var(--muted);font-size:0.9375rem}
+.login label{display:block;font-size:0.8125rem;color:var(--muted);margin:0.875rem 0 0.25rem}
+.login input{width:100%;font:400 1rem var(--f-body);padding:0.75rem 0.8rem;border:1px solid var(--line);border-radius:0.75rem;background:#fff}
+.login .b{width:100%;margin-top:1.125rem}
+.err{min-height:1.3em;margin-top:0.625rem;color:var(--bad);font-size:0.9375rem}
+.shift{font-size:0.8125rem;color:var(--muted);font-variant-numeric:tabular-nums;margin-right:auto;margin-left:0.625rem}
+.gate-b{margin-top:0.75rem}
+.flash{animation:fl 1.2s ease}
+@keyframes fl{0%,60%{background:#FFE3DD}100%{background:var(--paper)}}
+@media (prefers-reduced-motion:reduce){.flash{animation:none}}
+
+/* Menyu tabi */
+.m-top{display:flex;gap:0.5rem}
+.m-top select,.m-top input,.mbox select,.mbox textarea{font:400 1rem var(--f-body);color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:0.75rem;padding:0.7rem 0.8rem;min-width:0}
+.m-top select{flex:0 0 9.5rem}
+.m-top input{flex:1}
+.chips{display:flex;gap:0.375rem;overflow-x:auto;margin:0.75rem -1rem 0.5rem;padding:0 1rem 0.25rem;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;padding:0.5rem 0.875rem;border-radius:6.1875rem;border:1px solid var(--line);background:var(--paper);font-weight:500;font-size:0.9375rem;white-space:nowrap}
+.chip[aria-pressed="true"]{background:var(--gold-deep);color:#fff;border-color:var(--gold-deep)}
+.d-row{display:flex;align-items:center;justify-content:space-between;gap:0.75rem;padding:0.75rem 0.875rem;background:var(--paper);border:1px solid var(--line);border-radius:1rem;margin-top:0.5rem}
+.d-nm{min-width:0;font-family:var(--f-head);font-weight:700;font-size:1.25rem;line-height:1.2;overflow-wrap:anywhere}
+.d-nm small{display:block;font-family:var(--f-body);font-weight:500;font-size:0.875rem;color:var(--gold-deep)}
+.stp{display:inline-flex;align-items:center;gap:0.25rem;flex:none}
+.stp-add{min-width:2.75rem;height:2.75rem;padding:0 1rem;border-radius:6.1875rem;background:var(--gold-deep);color:#fff;font:600 1.375rem/1 var(--f-body)}
+.stp-b{width:2.75rem;height:2.75rem;border-radius:50%;border:1px solid var(--gold);color:var(--gold-deep);background:var(--paper);font:600 1.375rem/1 var(--f-body)}
+.stp-n{min-width:2rem;text-align:center;font-weight:600;font-size:1.0625rem;font-variant-numeric:tabular-nums}
+.mbar{position:fixed;left:0;right:0;bottom:0;z-index:12;padding:0.625rem 1rem calc(0.625rem + env(safe-area-inset-bottom,0px));background:rgba(238,236,230,.96);border-top:1px solid var(--line)}
+.mbar .b{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:44rem;margin:0 auto;padding:0 1.25rem;text-align:left}
+
+/* Oyna (modal) */
+.modal{position:fixed;inset:0;z-index:40;background:rgba(20,16,8,.6);display:flex;align-items:flex-end;justify-content:center}
+.mbox{width:min(34rem,100%);max-height:92vh;max-height:92dvh;overflow-y:auto;background:var(--bg);border-radius:1.5rem 1.5rem 0 0;padding:1.25rem 1.125rem calc(1.25rem + env(safe-area-inset-bottom,0px))}
+.mbox h3{font-family:var(--f-head);font-size:1.875rem;line-height:1.1;margin-bottom:0.5rem}
+.mbox label{display:block;font-size:0.8125rem;color:var(--muted);margin:0.875rem 0 0.25rem}
+.mbox select,.mbox textarea{width:100%}
+.mrow{display:flex;align-items:center;justify-content:space-between;gap:0.75rem;padding:0.625rem 0;border-bottom:1px solid var(--line)}
+.mrow .d-nm{font-size:1.125rem}
+.mtot{display:flex;justify-content:space-between;align-items:baseline;margin-top:1rem;font-family:var(--f-head);font-weight:700;font-size:1.625rem}
+.mtot span:last-child{font-family:var(--f-body);font-weight:600;font-size:1.25rem;color:var(--gold-deep)}
+.macts{display:flex;gap:0.5rem;margin-top:1rem}
+.calls{display:flex;flex-direction:column;gap:0.5rem;margin-bottom:0.875rem}
+.call{display:flex;align-items:center;gap:0.75rem;background:#FDE9E5;border:1px solid var(--bad);border-radius:0.75rem;padding:0.625rem 0.875rem;font-weight:600}
+.call span{flex:1}.call small{font-weight:400;color:var(--muted);margin-left:0.375rem}
+.call button{min-height:2.75rem;padding:0 1rem;border-radius:6.1875rem;background:var(--bad);color:#fff;font-weight:600}
+.mine{display:flex;align-items:center;gap:0.75rem;margin-bottom:0.875rem;font-size:0.9375rem}.mine span{flex:1;color:var(--muted)}
+.mine button{min-height:2.75rem;padding:0 1rem;border-radius:6.1875rem;border:1px solid var(--line);background:var(--paper);font-weight:600}
+.tgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:0.5rem;margin-top:0.875rem}
+.tc{aspect-ratio:1;border-radius:50%;border:1px solid var(--gold);background:var(--paper);color:var(--gold-deep);font-weight:600;font-size:0.9375rem}
+.tc.on{background:var(--gold-deep);color:#fff;border-color:var(--gold-deep)}.tc.oth{opacity:.4}
+.msave{display:block;width:100%;margin-top:1rem;padding:0.9rem;border-radius:6.1875rem;background:var(--gold-deep);color:#fff;font-weight:600;font-size:1rem}.msave:disabled{opacity:.6}
+.toast{position:fixed;left:50%;bottom:calc(6rem + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:50;background:var(--ink);color:#fff;padding:0.7rem 1.1rem;border-radius:6.1875rem;font-weight:500;max-width:calc(100vw - 2rem);text-align:center}
+
+/* Chek */
+.rc{background:#fff;color:#000;border:1px dashed #999;border-radius:0.5rem;padding:1rem;font-size:0.9375rem}
+.rc h4{font-family:var(--f-head);font-size:1.625rem;text-align:center;line-height:1.1}
+.rc .c{text-align:center}
+.rc .r{display:flex;justify-content:space-between;gap:0.5rem;padding:0.2rem 0}
+.rc hr{border:0;border-top:1px dashed #666;margin:0.5rem 0}
+.rc .tt{font-weight:700;font-size:1.125rem}
+#receipt{display:none}
+@page{margin:4mm}
+@media print{
+  body>*:not(#receipt){display:none!important}
+  body{background:#fff;padding:0;min-height:0}
+  #receipt{display:block!important;width:72mm;margin:0 auto}
+  #receipt .rc{border:0;padding:0;font-size:12px}
+}
+</style>
+</head>
+<body>
+
+<section class="login" id="login" hidden>
+  <h2>Afitsant paneli</h2>
+  <p>Maida Restaurant. Kirish uchun ma'lumotlaringizni kiriting.</p>
+  <form id="lf">
+    <label for="em">Login</label><input id="em" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+    <label for="pw">Parol</label><input id="pw" type="password" autocomplete="current-password" required>
+    <div class="err" id="lerr" role="alert"></div>
+    <button class="b" type="submit">Kirish</button>
+  </form>
+</section>
+
+<section class="login" id="gate" hidden>
+  <h2 id="gt"></h2>
+  <p id="gp"></p>
+  <div class="err" id="ge" role="alert"></div>
+  <button class="b alt gate-b" id="gout" type="button">Chiqish</button>
+</section>
+
+<div id="app" hidden>
+  <header class="bar"><div class="bar-in">
+    <div class="bar-top">
+      <h1>Maida</h1><span class="shift" id="shiftT"></span>
+      <div class="bar-act">
+        <button class="ib" id="snd" type="button" aria-pressed="true" aria-label="Ovoz">Ovoz</button>
+        <button class="ib" id="out" type="button">Chiqish</button>
+      </div>
+    </div>
+    <div class="tabs" role="tablist" id="tabs"></div>
+  </div></header>
+  <main>
+    <div class="demo" id="demo" hidden>Demo rejim: Firebase ulanmagan. Buyurtmalar faqat shu brauzerdagi menyudan keladi.</div>
+    <div class="err" id="gerr" role="alert"></div>
+    <div class="calls" id="calls" aria-live="polite"></div>
+    <div class="mine" id="mine"></div>
+    <div class="list" id="list"></div>
+    <div id="menu" hidden></div>
+  </main>
+  <div class="mbar" id="mbar" hidden></div>
+</div>
+<div class="modal" id="modal" hidden></div>
+<div class="toast" id="toast" role="status" hidden></div>
+<div id="receipt" aria-hidden="true"></div>
+
+<script src="menu.js"></script>
+<script>
+/* ofitsant.html: afitsant telefoni uchun panel (buyurtmalar, menyu, stollar, chek).
+   FIREBASE_CONFIG menyu sahifasidagi (index.html) bilan bir xil bo'lishi kerak. */
+const FIREBASE_CONFIG = { apiKey:'AIzaSyBtJFVmHM2LdHtjmnkF-l58LSajhhxbK9U', authDomain:'maidaa-8ee9d.firebaseapp.com', projectId:'maidaa-8ee9d', appId:'1:220000509476:web:bcfd5ab6cd9b869d65c2b1' };
+const TABLE_COUNT = 30, MAX_QTY = 20;
+const ORDER_WINDOW_H = 24, ORDER_LIMIT = 150;  /* panel faqat oxirgi 24 soat, ko'pi bilan 150 ta buyurtmani o'qiydi (Firebase o'qishini tejaydi) */
+const KEEP_DAYS = 31;              /* buyurtma shuncha kundan keyin Firestore TTL orqali o'zi o'chadi */
+const SHIFT_HOURS = 10;            /* smena davomiyligi; firestore.rules dagi 10 bilan bir xil bo'lsin */
+const LOGIN_DOMAIN = 'maida.uz';   /* afitsant "aziz" deb yozsa, aziz@maida.uz bilan kiradi (admin panel ham shuni ishlatadi) */
+const SMENA_K = 'maida-smena';
+/* Eshik QR kodi: ofitsant.html?smena=KOD. Kodni darhol saqlab, manzildan olib tashlaymiz. */
+try { const sc = new URLSearchParams(location.search).get('smena');
+  if (sc && /^[A-Za-z0-9_-]{8,64}$/.test(sc)){ localStorage.setItem(SMENA_K, sc); history.replaceState(null, '', location.pathname + location.hash); } } catch(e){}
+const DEMO = !FIREBASE_CONFIG.apiKey, DK = 'maida-orders-demo', CK = 'maida-calls-demo', TK = 'maida-tables-demo';
+
+const $ = s => document.querySelector(s);
+const mk = (tag,cls,text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+const fmt = p => String(p).replace(/\B(?=(\d{3})+(?!\d))/g,' ') + " so'm";
+const norm = s => String(s).toLowerCase().replace(/[ʻʼ‘’`´]/g,"'").replace(/ё/g,'е');
+const ST = {new:'Yangi', accepted:'Qabul qilindi', served:'Berildi', cancelled:'Bekor qilindi', billed:'Chek chiqarildi'};
+const TABS = [['new','Yangi'],['accepted','Jarayon'],['tables','Stollar'],['menu','Menyu'],['hist','Tarix']];
+let calls = [], tablesMap = {}, me = {uid:'', name:''}, alerted = null, callsLoaded = false, tablesLoaded = false;
+let orders = [], tab = 'new', known = null, soundOn = true, actx = null, backend = null, wake = null, flashIds = new Set();
+let draft = {}, dTable = '', dNote = '', mCat = MENU[0].id, mQ = '', modalKind = '', menuReady = false;
+
+/* ---------- Ovoz, tebranish, ekran ---------- */
+function unlock(){ try { actx = actx || new (window.AudioContext || window.webkitAudioContext)(); if (actx.state === 'suspended') actx.resume(); } catch(e){} }
+document.addEventListener('pointerdown', unlock);
+function beep(){
+  try { if (!actx) return; [0,0.22].forEach((d,i) => { const o = actx.createOscillator(), g = actx.createGain(); o.type = 'sine'; o.frequency.value = i ? 1040 : 780;
+    g.gain.setValueAtTime(0.0001, actx.currentTime + d); g.gain.exponentialRampToValueAtTime(0.35, actx.currentTime + d + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + d + 0.3);
+    o.connect(g); g.connect(actx.destination); o.start(actx.currentTime + d); o.stop(actx.currentTime + d + 0.32); }); } catch(e){}
+}
+function alertNew(){ if (soundOn) beep(); try { navigator.vibrate && navigator.vibrate([200,100,200]); } catch(e){} }
+$('#snd').onclick = e => { soundOn = !soundOn; e.currentTarget.setAttribute('aria-pressed', String(soundOn)); unlock(); if (soundOn) beep(); };
+async function keepAwake(){ try { if ('wakeLock' in navigator) wake = await navigator.wakeLock.request('screen'); } catch(e){} }
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && !$('#app').hidden) keepAwake(); });
+let toastT = 0;
+function toast(s){ const t = $('#toast'); t.textContent = s; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => { t.hidden = true; }, 2600); }
+
+/* ---------- Yordamchilar ---------- */
+const ago = ms => { const m = Math.max(0, Math.round((Date.now() - ms) / 60000)); return m < 1 ? 'hozir' : m < 60 ? m + ' daq oldin' : Math.floor(m / 60) + ' soat ' + (m % 60) + ' daq oldin'; };
+const p2 = n => String(n).padStart(2,'0');
+const hhmm = ms => { const d = new Date(ms); return p2(d.getHours()) + ':' + p2(d.getMinutes()); };
+const dmy = ms => { const d = new Date(ms); return p2(d.getDate()) + '.' + p2(d.getMonth() + 1) + '.' + d.getFullYear() + ' ' + hhmm(ms); };
+const keyOf = (c,it) => c.id + '|' + it.n;
+function findItem(k){ const a = k.split('|'), c = MENU.find(x => x.id === a[0]), n = a.slice(1).join('|'), it = c && c.items.find(x => x.n === n); return it ? {it,c} : null; }
+const tblSort = (a,b) => { const x = Number(a), y = Number(b); return (isNaN(x) || isNaN(y)) ? String(a).localeCompare(String(b)) : x - y; };
+function aggregate(list){
+  const m = {}; let total = 0;
+  list.forEach(o => (o.items || []).forEach(i => { const k = i.n + '|' + i.p; (m[k] = m[k] || {n:i.n, p:i.p, q:0}).q += i.q; total += i.q * i.p; }));
+  return {lines:Object.keys(m).map(k => m[k]), total};
+}
+function openByTable(){ const m = {}; orders.filter(o => o.status !== 'billed').forEach(o => { (m[o.table] = m[o.table] || []).push(o); }); return m; }
+
+/* ---------- Tablar ---------- */
+function drawTabs(){
+  const c = {new:orders.filter(o => o.status === 'new').length, accepted:orders.filter(o => o.status === 'accepted').length,
+    tables:Object.keys(openByTable()).length, menu:Object.keys(draft).length};
+  const box = $('#tabs'); box.innerHTML = '';
+  TABS.forEach(([id,name]) => { const b = mk('button','tab' + (id === 'new' ? ' new' : ''),name); b.type = 'button'; b.setAttribute('role','tab'); b.setAttribute('aria-selected', String(tab === id));
+    if (c[id]) b.appendChild(mk('span','cnt',String(c[id]))); b.onclick = () => { tab = id; draw(); window.scrollTo(0,0); }; box.appendChild(b); });
+  document.title = (c.new ? '(' + c.new + ') ' : '') + 'Maida | Afitsant paneli';
+}
+function draw(){
+  drawTabs();
+  const inMenu = tab === 'menu';
+  $('#list').hidden = inMenu; $('#menu').hidden = !inMenu; document.body.classList.toggle('inmenu', inMenu);
+  if (inMenu){ if (!menuReady) menuInit(); menuList(); } else drawOrders();
+  menuBar();
+}
+
+/* ---------- Buyurtmalar, stollar, tarix ---------- */
+function drawOrders(){
+  const list = $('#list'); list.innerHTML = '';
+  if (tab === 'tables'){
+    const m = openByTable(), keys = Object.keys(m).sort(tblSort);
+    if (!keys.length){ list.appendChild(mk('div','empty','Ochiq stol yo‘q.')); return; }
+    keys.forEach(k => list.appendChild(tableCard(k, m[k]))); return;
+  }
+  let rows;
+  if (tab === 'hist'){ rows = orders.filter(o => o.status === 'served' || o.status === 'cancelled' || o.status === 'billed').sort((a,b) => b.ms - a.ms).slice(0,60); }
+  else { rows = orders.filter(o => o.status === tab).sort((a,b) => a.ms - b.ms); }
+  if (!rows.length){ list.appendChild(mk('div','empty',tab === 'new' ? 'Yangi buyurtma yo‘q.' : 'Bo‘sh.')); return; }
+  rows.forEach(o => list.appendChild(card(o)));
+}
+function btn(txt,cls,fn){
+  const b = mk('button','b ' + cls,txt); b.type = 'button';
+  b.onclick = async () => { b.disabled = true; try { await fn(); } catch(e){ $('#gerr').textContent = 'Saqlab bo‘lmadi. Internetni va ruxsatlarni tekshiring.'; } b.disabled = false; };
+  return b;
+}
+const cancelFn = o => () => confirm('Stol ' + o.table + ' buyurtmasi bekor qilinsinmi?') ? backend.set(o.id,'cancelled') : Promise.resolve();
+function card(o){
+  const c = mk('article','o ' + o.status + (flashIds.has(o.id) ? ' flash' : ''));
+  const h = mk('div','o-h'), m = mk('div','o-m');
+  h.appendChild(mk('div','o-t','Stol ' + o.table));
+  m.appendChild(mk('b','',hhmm(o.ms))); m.appendChild(document.createTextNode(ago(o.ms) + (o.by === 'waiter' ? ' · afitsant' : ''))); m.appendChild(document.createElement('br')); m.appendChild(mk('span','badge ' + o.status,ST[o.status] || o.status));
+  h.appendChild(m); c.appendChild(h);
+  const ul = mk('ul','o-i');
+  (o.items || []).forEach(i => { const li = mk('li'); li.append(mk('span','q',i.q + ' ×'), mk('span','',i.n)); ul.appendChild(li); });
+  c.appendChild(ul);
+  if (o.note) c.appendChild(mk('div','note','Izoh: ' + o.note));
+  const s = mk('div','o-s'); s.append(mk('span','','Jami'), mk('span','',fmt(o.total || 0))); c.appendChild(s);
+  const a = mk('div','o-a');
+  if (o.status === 'new') a.append(btn('Qabul qilish','',() => backend.set(o.id,'accepted')), btn('Bekor','sm bad',cancelFn(o)));
+  else if (o.status === 'accepted') a.append(btn('Berildi','ok',() => backend.set(o.id,'served')), btn('Bekor','sm bad',cancelFn(o)));
+  else if (o.status === 'served') a.append(btn('Qaytarish','sm',() => backend.set(o.id,'accepted')));
+  if (a.children.length) c.appendChild(a);
+  return c;
+}
+function tableCard(tb, os){
+  const live = os.filter(o => o.status !== 'cancelled'), ag = aggregate(live);
+  const pending = live.filter(o => o.status === 'new' || o.status === 'accepted').length;
+  const c = mk('article','o' + (pending ? '' : ' served'));
+  const h = mk('div','o-h'), m = mk('div','o-m');
+  h.appendChild(mk('div','o-t','Stol ' + tb));
+  m.appendChild(mk('b','',os.length + ' ta buyurtma'));
+  m.appendChild(mk('span','badge ' + (pending ? 'accepted' : 'served'), pending ? pending + ' ta berilmagan' : 'Hammasi berilgan'));
+  h.appendChild(m); c.appendChild(h);
+  const ul = mk('ul','o-i');
+  ag.lines.forEach(i => { const li = mk('li'); li.append(mk('span','q',i.q + ' ×'), mk('span','',i.n), mk('span','s',fmt(i.q * i.p))); ul.appendChild(li); });
+  c.appendChild(ul);
+  const s = mk('div','o-s'); s.append(mk('span','','Hisob jami'), mk('span','',fmt(ag.total))); c.appendChild(s);
+  const a = mk('div','o-a');
+  a.append(btn('+ Buyurtma','sm',() => { dTable = String(tb); tab = 'menu'; draw(); window.scrollTo(0,0); return Promise.resolve(); }),
+    btn(ag.total ? 'Chek chiqarish' : 'Stolni yopish','ok',() => billTable(tb)));
+  c.appendChild(a); return c;
+}
+
+/* ---------- Chek ---------- */
+async function billTable(tb){
+  const os = orders.filter(o => o.table === String(tb) && o.status !== 'billed'); if (!os.length) return;
+  const live = os.filter(o => o.status !== 'cancelled'), ag = aggregate(live);
+  const pending = live.filter(o => o.status === 'new' || o.status === 'accepted').length;
+  const q = !ag.total ? 'Stol ' + tb + ' yopilsinmi?'
+    : pending ? 'Stol ' + tb + ': ' + pending + ' ta buyurtma hali berilmagan. Baribir chek chiqarilsinmi?'
+    : 'Stol ' + tb + ' uchun chek chiqarilsinmi? Mijozning buyurtmalar tarixi tozalanadi.';
+  if (!confirm(q)) return;
+  await backend.bill(os.map(o => o.id), ag.total ? {total:ag.total, lines:ag.lines} : null);
+  if (ag.total) showReceipt({table:tb, lines:ag.lines, total:ag.total, ts:Date.now()});
+  else toast('Stol ' + tb + ' yopildi');
+}
+function receiptNode(r){
+  const d = mk('div','rc');
+  d.appendChild(mk('h4','','Maida Restaurant'));
+  d.appendChild(mk('div','c','Chek'));
+  d.appendChild(mk('div','c','Stol ' + r.table + ' · ' + dmy(r.ts)));
+  d.appendChild(document.createElement('hr'));
+  r.lines.forEach(i => { const row = mk('div','r'); row.append(mk('span','',i.n + '  ' + i.q + ' × ' + fmt(i.p)), mk('span','',fmt(i.q * i.p))); d.appendChild(row); });
+  d.appendChild(document.createElement('hr'));
+  const t = mk('div','r tt'); t.append(mk('span','','Jami'), mk('span','',fmt(r.total))); d.appendChild(t);
+  d.appendChild(document.createElement('hr'));
+  d.appendChild(mk('div','c','Rahmat! Yana kutamiz.'));
+  return d;
+}
+function showReceipt(r){
+  const box = mk('div'); box.appendChild(mk('h3','','Chek tayyor')); box.appendChild(receiptNode(r));
+  const a = mk('div','macts');
+  const pr = mk('button','b','Chop etish'); pr.type = 'button'; pr.onclick = () => { $('#receipt').replaceChildren(receiptNode(r)); window.print(); };
+  const cl = mk('button','b alt','Yopish'); cl.type = 'button'; cl.onclick = closeModal;
+  a.append(pr,cl); box.appendChild(a); openModal(box,'receipt');
+}
+
+/* ---------- Oyna ---------- */
+function openModal(node,kind){ const m = $('#modal'); m.innerHTML = ''; const b = mk('div','mbox'); b.appendChild(node); m.appendChild(b); m.hidden = false; modalKind = kind; document.body.classList.add('lock'); }
+function closeModal(){ $('#modal').hidden = true; $('#modal').innerHTML = ''; modalKind = ''; document.body.classList.remove('lock'); }
+$('#modal').addEventListener('mousedown', e => { if (e.target.id === 'modal') closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#modal').hidden) closeModal(); });
+
+/* ---------- Menyu tabi: afitsant o'zi buyurtma beradi ---------- */
+function dLines(){ const out = []; Object.keys(draft).forEach(k => { const f = findItem(k); if (f) out.push({k, it:f.it, c:f.c, q:draft[k]}); else delete draft[k]; }); return out; }
+function setQ(k,q){
+  q = Math.max(0, Math.min(MAX_QTY, q)); if (q) draft[k] = q; else delete draft[k];
+  drawTabs(); menuList(); menuBar();
+  if (modalKind === 'order'){ if (dLines().length) renderOrderModal(); else closeModal(); }
+}
+function stepper(k){
+  const w = mk('div','stp'), q = draft[k] || 0;
+  if (!q){ const a = mk('button','stp-add','+'); a.type = 'button'; a.setAttribute('aria-label','Qo‘shish'); a.onclick = () => setQ(k,1); w.appendChild(a); return w; }
+  const m = mk('button','stp-b','−'), p = mk('button','stp-b','+'); m.type = p.type = 'button'; m.setAttribute('aria-label','Kamaytirish'); p.setAttribute('aria-label','Ko‘paytirish');
+  m.onclick = () => setQ(k, (draft[k] || 0) - 1); p.onclick = () => setQ(k, (draft[k] || 0) + 1);
+  w.append(m, mk('span','stp-n',String(q)), p); return w;
+}
+function tableSelect(cb){
+  const sel = mk('select'); sel.setAttribute('aria-label','Stol');
+  const o0 = mk('option','','Stolni tanlang'); o0.value = ''; sel.appendChild(o0);
+  const seen = new Set();
+  for (let i = 1; i <= TABLE_COUNT; i++){ seen.add(String(i)); const o = mk('option','','Stol ' + i); o.value = String(i); sel.appendChild(o); }
+  if (dTable && !seen.has(dTable)){ const o = mk('option','','Stol ' + dTable); o.value = dTable; sel.appendChild(o); }
+  sel.value = dTable; sel.onchange = () => { dTable = sel.value; if (cb) cb(); }; return sel;
+}
+function menuInit(){
+  menuReady = true; const m = $('#menu'); m.innerHTML = '';
+  const top = mk('div','m-top'); top.id = 'mtop';
+  const q = mk('input'); q.type = 'search'; q.placeholder = 'Taom qidirish'; q.setAttribute('aria-label','Qidirish'); q.autocomplete = 'off';
+  q.oninput = () => { mQ = q.value.trim(); menuList(); };
+  top.append(tableSelect(), q); m.appendChild(top);
+  const chips = mk('div','chips'); chips.id = 'mchips'; m.appendChild(chips);
+  const l = mk('div'); l.id = 'mlist'; m.appendChild(l);
+}
+function menuList(){
+  if (!menuReady) return;
+  const top = $('#mtop'); const old = top.querySelector('select'); if (old && old.value !== dTable) old.replaceWith(tableSelect());
+  const chips = $('#mchips'); chips.innerHTML = '';
+  MENU.forEach(c => { const b = mk('button','chip',c.name); b.type = 'button'; b.setAttribute('aria-pressed', String(!mQ && c.id === mCat)); b.onclick = () => { mCat = c.id; mQ = ''; top.querySelector('input').value = ''; menuList(); }; chips.appendChild(b); });
+  const l = $('#mlist'); l.innerHTML = '';
+  let rows = [];
+  if (mQ){ const q = norm(mQ); MENU.forEach(c => c.items.forEach(it => { if (norm([it.n, it.d || '', (it.ru || []).join(' '), (it.en || []).join(' ')].join(' ')).includes(q)) rows.push({it,c}); })); }
+  else { const c = MENU.find(x => x.id === mCat) || MENU[0]; rows = c.items.map(it => ({it,c})); }
+  if (!rows.length){ l.appendChild(mk('div','empty','Hech narsa topilmadi.')); return; }
+  rows.forEach(({it,c}) => { const r = mk('div','d-row'), nm = mk('div','d-nm',it.n); nm.appendChild(mk('small','',fmt(it.p))); r.append(nm, stepper(keyOf(c,it))); l.appendChild(r); });
+}
+function menuBar(){
+  const bar = $('#mbar'), lines = dLines();
+  if (tab !== 'menu' || !lines.length){ bar.hidden = true; return; }
+  const n = lines.reduce((s,l) => s + l.q, 0), sum = lines.reduce((s,l) => s + l.q * l.it.p, 0);
+  bar.innerHTML = ''; const b = mk('button','b'); b.type = 'button';
+  b.append(mk('span','',(dTable ? 'Stol ' + dTable + ' · ' : '') + n + ' ta taom'), mk('span','',fmt(sum)));
+  b.onclick = renderOrderModal; bar.appendChild(b); bar.hidden = false;
+}
+function renderOrderModal(){
+  const prevBox = $('#modal .mbox'), keepScroll = prevBox && modalKind === 'order' ? prevBox.scrollTop : 0;
+  const lines = dLines(); const box = mk('div');
+  box.appendChild(mk('h3','','Yangi buyurtma'));
+  box.appendChild(mk('label','','Stol')); box.appendChild(tableSelect(menuBar));
+  lines.forEach(l => { const r = mk('div','mrow'), nm = mk('div','d-nm',l.it.n); nm.appendChild(mk('small','',fmt(l.it.p * l.q))); r.append(nm, stepper(l.k)); box.appendChild(r); });
+  box.appendChild(mk('label','','Izoh (ixtiyoriy)'));
+  const ta = mk('textarea'); ta.maxLength = 200; ta.rows = 2; ta.value = dNote; ta.placeholder = 'Masalan: achchiq bo‘lmasin'; ta.oninput = () => { dNote = ta.value; }; box.appendChild(ta);
+  const sum = lines.reduce((s,l) => s + l.q * l.it.p, 0), tot = mk('div','mtot'); tot.append(mk('span','','Jami'), mk('span','',fmt(sum))); box.appendChild(tot);
+  const msg = mk('div','err'); msg.setAttribute('role','alert'); box.appendChild(msg);
+  const a = mk('div','macts');
+  const go = mk('button','b ok','Buyurtmani yuborish'); go.type = 'button';
+  go.onclick = async () => {
+    if (!dTable){ msg.textContent = 'Stolni tanlang.'; return; }
+    go.disabled = true; msg.textContent = '';
+    const payload = {table:String(dTable), items:lines.map(l => ({n:l.it.n, q:l.q, p:l.it.p})), note:dNote.trim().slice(0,200), total:sum, status:'accepted', lang:'uz'};
+    try { await backend.create(payload); const tb = dTable; draft = {}; dNote = ''; closeModal(); tab = 'accepted'; draw(); toast('Stol ' + tb + ': buyurtma yuborildi'); }
+    catch(e){ go.disabled = false; msg.textContent = 'Yuborib bo‘lmadi. Internetni va ruxsatlarni tekshiring.'; }
+  };
+  const cl = mk('button','b alt','Yopish'); cl.type = 'button'; cl.onclick = closeModal;
+  a.append(go,cl); box.appendChild(a);
+  openModal(box,'order'); $('#modal .mbox').scrollTop = keepScroll;
+}
+
+/* ---------- Ma'lumot kelganda ---------- */
+function onData(list){
+  orders = list;
+  const ids = new Set(list.map(o => o.id));
+  if (known){ const fresh = list.filter(o => o.status === 'new' && !known.has(o.id)); if (fresh.length){ alertNew(); fresh.forEach(o => flashIds.add(o.id)); setTimeout(() => { flashIds.clear(); }, 2000); } }
+  known = ids; $('#gerr').textContent = '';
+  draw();
+}
+/* ---------- Mijoz chaqiruvlari va stollarim ---------- */
+const myTbl = () => Object.keys(tablesMap).filter(k => tablesMap[k].uid === me.uid && tablesMap[k].until > Date.now()).sort(tblSort);
+/* Chaqiruv kimga ko'rinadi: stol egasi (smenadagi afitsant) ga. Egasiz stol: hammaga. Egasi 2 daqiqa javob bermasa: hammaga. */
+function visibleCalls(){
+  const now = Date.now(), m = {};
+  calls.filter(c => now - c.ms < 3 * 3600 * 1000).forEach(c => { (m[c.table] = m[c.table] || []).push(c); });
+  return Object.keys(m).sort(tblSort).map(tb => {
+    const o = tablesMap[tb], live = o && o.until > now, first = Math.min.apply(null, m[tb].map(c => c.ms));
+    const mine = !live || o.uid === me.uid, late = now - first > 120000;
+    return (mine || late) ? {tb, ids:m[tb].map(c => c.id), first, other: !mine ? o.name : ''} : null;
+  }).filter(Boolean);
+}
+function drawCalls(){
+  const box = $('#calls'); box.innerHTML = '';
+  if (!callsLoaded || !tablesLoaded) return;
+  const vis = visibleCalls(), keys = vis.map(v => v.ids.join());
+  if (alerted === null) alerted = new Set(keys);
+  else if (keys.some(k => !alerted.has(k))){ alertNew(); keys.forEach(k => alerted.add(k)); }
+  vis.forEach(v => {
+    const r = mk('div','call'), sp = mk('span','','Stol ' + v.tb + ' afitsantni chaqirmoqda'); sp.appendChild(mk('small','',v.other ? (v.other || 'boshqa afitsant') + ' stoli, javob yo‘q · ' + ago(v.first) : ago(v.first)));
+    const b = mk('button','','Bordim'); b.type = 'button'; b.onclick = () => { b.disabled = true; backend.ackCalls(v.ids).catch(() => { b.disabled = false; toast('Belgilab bo‘lmadi.'); }); };
+    r.append(sp, b); box.appendChild(r);
+  });
+}
+function drawMine(){
+  const box = $('#mine'); box.innerHTML = ''; const m = myTbl();
+  const b = mk('button','',m.length ? 'O‘zgartirish' : 'Stollarni tanlash'); b.type = 'button'; b.onclick = pickTables;
+  box.append(mk('span','',m.length ? 'Mening stollarim: ' + m.join(', ') : 'Xizmat ko‘rsatadigan stollar tanlanmagan'), b);
+}
+function pickTables(){
+  const sel = new Set(myTbl()), d = mk('div');
+  d.appendChild(mk('h3','','Xizmat ko‘rsatadigan stollaringiz'));
+  d.appendChild(mk('p','','Mehmon afitsantni chaqirsa, xabar shu stollarga xizmat qilayotgan sizga keladi. Boshqa afitsant olgan stollar xira ko‘rinadi.'));
+  const g = mk('div','tgrid');
+  for (let i = 1; i <= TABLE_COUNT; i++){
+    const k = String(i), o = tablesMap[k], oth = o && o.uid !== me.uid && o.until > Date.now();
+    const c = mk('button','tc' + (sel.has(k) ? ' on' : '') + (oth ? ' oth' : ''), k); c.type = 'button'; if (oth) c.title = o.name;
+    c.onclick = () => { if (sel.has(k)) sel.delete(k); else sel.add(k); c.classList.toggle('on', sel.has(k)); }; g.appendChild(c);
+  }
+  const sv = mk('button','msave','Saqlash'); sv.type = 'button';
+  sv.onclick = async () => { sv.disabled = true; try { await backend.saveTables([...sel], myTbl()); closeModal(); toast('Saqlandi.'); } catch(e){ sv.disabled = false; toast('Saqlab bo‘lmadi.'); } };
+  d.append(g, sv); openModal(d,'tables');
+}
+function onCalls(list){ calls = list; callsLoaded = true; drawCalls(); }
+function onTables(m){ tablesMap = m; tablesLoaded = true; drawMine(); drawCalls(); }
+setInterval(() => { if (!$('#app').hidden){ drawCalls(); drawMine(); } }, 30000);
+setInterval(() => { if (!$('#app').hidden && tab !== 'menu' && $('#modal').hidden) draw(); }, 30000);
+
+/* ---------- Demo rejim (localStorage) ---------- */
+const demoB = {
+  load(){ let l = []; try { l = JSON.parse(localStorage.getItem(DK) || '[]'); } catch(e){} return l.map(o => Object.assign({ms:o.createdMs || Date.now()}, o)); },
+  save(l){ localStorage.setItem(DK, JSON.stringify(l.slice(0,200))); onData(this.load()); },
+  start(){ me = {uid:'demo', name:'Demo'}; onData(this.load()); onTables(this.loadTables()); onCalls(this.loadCalls()); window.addEventListener('storage', e => { if (e.key === CK) onCalls(this.loadCalls()); if (e.key === TK) onTables(this.loadTables()); }); window.addEventListener('storage', e => { if (e.key === DK) onData(this.load()); }); },
+  async create(p){ const l = this.load(); l.unshift(Object.assign({id:'D' + Date.now().toString(36).toUpperCase(), createdMs:Date.now(), by:'waiter'}, p)); this.save(l); },
+  loadCalls(){ let l = []; try { l = JSON.parse(localStorage.getItem(CK) || '[]'); } catch(e){} return l.filter(c => c.status === 'open').map(c => Object.assign({ms:c.createdMs || Date.now()}, c)); },
+  loadTables(){ let m = {}; try { m = JSON.parse(localStorage.getItem(TK) || '{}'); } catch(e){} return m; },
+  async saveTables(sel, prev){ const m = this.loadTables(); prev.forEach(k => { delete m[k]; }); sel.forEach(k => { m[k] = {uid:me.uid, name:me.name, until:Date.now() + SHIFT_HOURS * 3600 * 1000}; }); localStorage.setItem(TK, JSON.stringify(m)); onTables(m); },
+  async ackCalls(ids){ let l = []; try { l = JSON.parse(localStorage.getItem(CK) || '[]'); } catch(e){} localStorage.setItem(CK, JSON.stringify(l.map(c => ids.indexOf(c.id) >= 0 ? Object.assign(c,{status:'done'}) : c))); onCalls(this.loadCalls()); },
+  async set(id,status){ this.save(this.load().map(o => o.id === id ? Object.assign(o,{status}) : o)); },
+  async bill(ids){ this.save(this.load().map(o => ids.indexOf(o.id) >= 0 ? Object.assign(o,{status:'billed'}) : o)); }
+};
+
+/* ---------- Firebase ---------- */
+async function startFirebase(){
+  const B = 'https://www.gstatic.com/firebasejs/10.14.1/';
+  const [a,au,fs] = await Promise.all([import(B + 'firebase-app.js'), import(B + 'firebase-auth.js'), import(B + 'firebase-firestore.js')]);
+  const app = a.initializeApp(FIREBASE_CONFIG), auth = au.getAuth(app), db = fs.getFirestore(app);
+  let unsubO = null, unsubC = null, unsubT = null, unsubW = null, expT = 0, tick = 0, myW = null, activating = false;
+  backend = {
+    set:(id,status) => fs.updateDoc(fs.doc(db,'orders',id), {status}),
+    saveTables:(sel, prev) => { const b = fs.writeBatch(db), until = fs.Timestamp.fromMillis(shiftEnd(myW));
+      sel.forEach(k => b.set(fs.doc(db,'tables',k), {uid:me.uid, name:me.name || '', until}));
+      prev.filter(k => sel.indexOf(k) < 0).forEach(k => b.delete(fs.doc(db,'tables',k))); return b.commit(); },
+    ackCalls:ids => { const b = fs.writeBatch(db); ids.forEach(id => b.update(fs.doc(db,'calls',id), {status:'done'})); return b.commit(); },
+    create:p => fs.addDoc(fs.collection(db,'orders'), Object.assign({}, p, {by:'waiter', open:true, createdAt:fs.serverTimestamp(), expireAt:fs.Timestamp.fromMillis(Date.now() + KEEP_DAYS * 864e5)})),
+    bill:(ids,rp) => { const b = fs.writeBatch(db); ids.forEach(id => b.update(fs.doc(db,'orders',id), {status:'billed', open:false}));
+      if (rp){ /* kunlik hisobot: chek bilan birga bitta yozuvda saqlanadi */
+        const d = new Date(), key = d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate()), by = {}, items = {};
+        rp.lines.forEach(l => { const e = by[l.n] || (by[l.n] = {q:0, s:0}); e.q += l.q; e.s += l.q * l.p; });
+        Object.keys(by).forEach(n => { items[n.replace(/[.\/\[\]*~`]/g,'_')] = {n, q:fs.increment(by[n].q), s:fs.increment(by[n].s)}; });
+        b.set(fs.doc(db,'reports',key), {date:key, checks:fs.increment(1), total:fs.increment(rp.total), items, updatedAt:fs.serverTimestamp()}, {merge:true});
+      }
+      return b.commit(); }
+  };
+  const SH = SHIFT_HOURS * 3600 * 1000;
+  const stopOrders = () => { if (unsubO){ unsubO(); unsubO = null; } if (unsubC){ unsubC(); unsubC = null; } if (unsubT){ unsubT(); unsubT = null; } known = null; orders = []; calls = []; tablesMap = {}; callsLoaded = tablesLoaded = false; alerted = null; drawCalls(); drawMine(); };
+  const stopTimers = () => { clearTimeout(expT); clearInterval(tick); $('#shiftT').textContent = ''; };
+  function gate(title,msg){
+    stopOrders(); stopTimers(); closeModal();
+    $('#app').hidden = true; $('#login').hidden = true; $('#gate').hidden = false;
+    $('#gt').textContent = title; $('#gp').textContent = msg;
+  }
+  function shiftEnd(w){ const s = w && w.shiftStart && w.shiftStart.toMillis ? w.shiftStart.toMillis() : 0; return s ? s + SH : 0; }
+  function leftTxt(end){ const m = Math.max(0, Math.floor((end - Date.now()) / 60000)); return 'Smena: ' + Math.floor(m / 60) + ' s ' + p2(m % 60) + ' d'; }
+  function startCalls(){
+    const q = fs.query(fs.collection(db,'calls'), fs.where('status','==','open'), fs.limit(50));
+    unsubT = fs.onSnapshot(fs.collection(db,'tables'), snap => {
+      const m = {}; snap.docs.forEach(d => { const v = d.data(); m[d.id] = {uid:v.uid, name:v.name || '', until:v.until && v.until.toMillis ? v.until.toMillis() : 0}; }); onTables(m);
+    }, () => {});
+    unsubC = fs.onSnapshot(q, snap => {
+      onCalls(snap.docs.map(d => { const v = d.data({serverTimestamps:'estimate'}), t = v.createdAt && v.createdAt.toMillis ? v.createdAt.toMillis() : Date.now(); return Object.assign({}, v, {id:d.id, ms:t}); }));
+    }, () => {});
+  }
+  function startOrders(){
+    const since = fs.Timestamp.fromMillis(Date.now() - ORDER_WINDOW_H * 3600 * 1000);
+    const q = fs.query(fs.collection(db,'orders'), fs.where('createdAt','>=',since), fs.orderBy('createdAt','desc'), fs.limit(ORDER_LIMIT));
+    unsubO = fs.onSnapshot(q, snap => {
+      onData(snap.docs.map(d => { const v = d.data(), t = v.createdAt && v.createdAt.toMillis ? v.createdAt.toMillis() : Date.now(); return Object.assign({}, v, {id:d.id, ms:t}); }));
+    }, () => { $('#gerr').textContent = 'Buyurtmalarni o‘qib bo‘lmadi. Smena tugagan bo‘lishi mumkin: QR kodni qayta skanerlang yoki qayta kiring.'; apply(myW); });
+  }
+  function apply(w){
+    myW = w;
+    if (!w) return gate('Hisob topilmadi','Bu hisob afitsantlar ro‘yxatida yo‘q. Administratorga murojaat qiling.');
+    if (w.active === false) return gate('Hisobingiz faol emas','Administrator hisobingizni faolsizlantirgan.');
+    if (w.role === 'manager') return gate('Bu manager hisobi','Manager paneli: manager.html sahifasidan kiring.');
+    const end = shiftEnd(w);
+    if (!end || Date.now() >= end) return gate('Smena yopiq','Ishni boshlash uchun eshik tagidagi QR kodni telefon kamerasi bilan skanerlang.');
+    $('#ge').textContent = ''; $('#gate').hidden = true; $('#login').hidden = true; $('#app').hidden = false; keepAwake();
+    if (!unsubO) startOrders();
+    me.name = w.name || ''; if (!unsubC) startCalls();
+    clearTimeout(expT); expT = setTimeout(() => apply(myW), Math.max(1000, end - Date.now() + 500));
+    clearInterval(tick); const upd = () => { $('#shiftT').textContent = leftTxt(end); }; upd(); tick = setInterval(upd, 30000);
+  }
+  async function tryActivate(uid,w){
+    let code = ''; try { code = localStorage.getItem(SMENA_K) || ''; } catch(e){}
+    if (!code || activating) return;
+    activating = true;
+    try { localStorage.removeItem(SMENA_K); } catch(e){}
+    try {
+      if (!w || w.active === false) return;
+      const end = shiftEnd(w);
+      if (end && Date.now() < end){ toast('Smena allaqachon faol.'); return; }
+      await fs.updateDoc(fs.doc(db,'waiters',uid), {shiftStart:fs.serverTimestamp(), code});
+      $('#ge').textContent = '';
+    } catch(e){ $('#ge').textContent = 'QR kod noto‘g‘ri yoki eskirgan. Administratordan yangi QR so‘rang.'; }
+    finally { activating = false; }
+  }
+  $('#lf').addEventListener('submit', async e => {
+    e.preventDefault(); $('#lerr').textContent = '';
+    let em = $('#em').value.trim().toLowerCase(); if (em.indexOf('@') < 0) em += '@' + LOGIN_DOMAIN;
+    try { await au.signInWithEmailAndPassword(auth, em, $('#pw').value); }
+    catch(er){ $('#lerr').textContent = 'Login yoki parol noto‘g‘ri.'; }
+  });
+  const signOut = () => au.signOut(auth);
+  $('#out').onclick = signOut; $('#gout').onclick = signOut;
+  au.onAuthStateChanged(auth, u => {
+    if (unsubW){ unsubW(); unsubW = null; }
+    stopOrders(); stopTimers(); myW = null;
+    if (!u){ $('#app').hidden = true; $('#gate').hidden = true; $('#login').hidden = false; return; }
+    $('#login').hidden = true; me = {uid:u.uid, name:''};
+    unsubW = fs.onSnapshot(fs.doc(db,'waiters',u.uid), snap => {
+      const w = snap.exists() ? snap.data({serverTimestamps:'estimate'}) : null;
+      apply(w); tryActivate(u.uid, w);
+    }, () => gate('Ulanib bo‘lmadi','Internetni tekshirib, sahifani yangilang.'));
+  });
+}
+
+if (DEMO){ backend = demoB; $('#demo').hidden = false; $('#app').hidden = false; $('#out').hidden = true; keepAwake(); demoB.start(); }
+else startFirebase().catch(() => { $('#login').hidden = false; $('#lerr').textContent = 'Firebase ulanmadi. Internetni tekshirib, sahifani yangilang.'; });
+</script>
+</body>
+</html>
